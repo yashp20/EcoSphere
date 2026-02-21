@@ -11,7 +11,7 @@ from auth.clerk import verify_clerk_token
 from recommendation.engine import recommend_energy
 
 # ⭐ IMPORT PROVIDERS ROUTER (Google Places version)
-from providers import router as providers_router
+from recommendation.providers import router as providers_router
 
 
 app = FastAPI()
@@ -45,7 +45,10 @@ def get_user(payload=Depends(auth_required)):
 # --- ZIP → Lat/Lon (Nominatim) ---
 def geocode_zip(zip):
     url = f"https://nominatim.openstreetmap.org/search?postalcode={zip}&country=USA&format=json"
-    res = requests.get(url, headers={"User-Agent": "EcoSphere"}).json()
+    try:
+        res = requests.get(url, headers={"User-Agent": "EcoSphere"}, timeout=10).json()
+    except Exception:
+        raise HTTPException(status_code=502, detail="Geocoding service unavailable")
 
     if not res:
         raise HTTPException(status_code=400, detail="Invalid ZIP code")

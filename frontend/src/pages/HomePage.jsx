@@ -86,10 +86,14 @@ export default function HomePage() {
 
 function FeatureCard({ title, desc, icon }) {
   return (
-    <div className="bg-white/70 backdrop-blur-xl p-8 rounded-3xl shadow-md text-center border border-white/40 hover:scale-105 transition-transform">
-      <div className="text-5xl mb-4">{icon}</div>
-      <h3 className="text-2xl font-semibold text-green-900 mb-3">{title}</h3>
-      <p className="text-green-800">{desc}</p>
+    <div className="group bg-white/70 backdrop-blur-xl p-8 rounded-3xl shadow-md text-center
+                    border border-white/40 hover:scale-105 hover:shadow-xl hover:border-green-300
+                    transition-all duration-300 cursor-default">
+      <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
+        {icon}
+      </div>
+      <h3 className="text-xl font-bold text-green-900 mb-2">{title}</h3>
+      <p className="text-green-700 text-sm leading-relaxed">{desc}</p>
     </div>
   );
 }

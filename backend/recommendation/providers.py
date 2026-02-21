@@ -38,11 +38,35 @@ def get_providers(zip: str):
     providers = []
 
     for p in results:
+        place_id = p.get("place_id")
+        
+        # Fetch place details for phone, website, hours
+        details = {}
+        if place_id:
+            detail_url = (
+                "https://maps.googleapis.com/maps/api/place/details/json"
+                f"?place_id={place_id}"
+                f"&fields=name,formatted_address,formatted_phone_number,website,opening_hours,geometry"
+                f"&key={GOOGLE_KEY}"
+            )
+            detail_res = requests.get(detail_url).json().get("result", {})
+            details = detail_res
+
+        # Calculate distance (rough haversine-free distance using lat/lng delta)
+        p_lat = p.get("geometry", {}).get("location", {}).get("lat", lat)
+        p_lng = p.get("geometry", {}).get("location", {}).get("lng", lng)
+        dist_miles = round(
+            ((p_lat - lat) ** 2 + (p_lng - lng) ** 2) ** 0.5 * 69, 1
+        )
+
         providers.append({
             "name": p.get("name"),
-            "address": p.get("vicinity"),
+            "address": details.get("formatted_address", p.get("vicinity", "")),
+            "phone": details.get("formatted_phone_number", ""),
+            "website": details.get("website", ""),
+            "opening_hours": details.get("opening_hours", {}).get("weekday_text", []),
+            "distance_miles": dist_miles,
             "rating": p.get("rating"),
-            "user_ratings_total": p.get("user_ratings_total"),
         })
 
     return {"providers": providers}

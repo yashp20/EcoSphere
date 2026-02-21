@@ -1,3 +1,5 @@
+from recommendation.solar import solar_resource, pvwatts_ac_output
+
 # -----------------------------
 # LOCATION-BASED SOLAR (lat/lon heuristic)
 # -----------------------------
@@ -29,13 +31,15 @@ def calculate_system_size(monthly_kwh: float, sqft: int):
 # -----------------------------
 def recommend_energy(zip, lat, lon, monthly_kwh, ownership, dwelling, battery, sqft):
 
-    ghi, dni = estimate_solar_resource(lat)
+    solar_data = solar_resource(lat, lon)          # ✅ real NREL data
+    ghi = solar_data["ghi"]
+    dni = solar_data["dni"]
 
     solar_kw = calculate_system_size(monthly_kwh, sqft)
     system_cost = solar_kw * 2800
     battery_cost = 12000 if battery else 0
 
-    annual_output = solar_kw * ghi * 365
+    annual_output = pvwatts_ac_output(lat, lon, solar_kw)   # ✅ real PVWatts output
 
     itc_savings = 0.30 * (system_cost + battery_cost)
     savings_per_year = annual_output * 0.18
@@ -60,6 +64,7 @@ def recommend_energy(zip, lat, lon, monthly_kwh, ownership, dwelling, battery, s
             "solar": {
                 "solar_kw": solar_kw,
                 "annual_output_kwh": annual_output,
+                "annual_savings": round(savings_per_year, 2),   # ✅ ADD THIS
                 "system_cost": system_cost,
                 "battery_cost": battery_cost,
                 "itc_savings": itc_savings,

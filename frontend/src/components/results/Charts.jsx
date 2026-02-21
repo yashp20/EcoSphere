@@ -27,12 +27,12 @@ export default function Charts({ data }) {
   if (!data) return null;
 
   const {
-    co2_savings_tons_per_year,
-    remaining_carbon_footprint,
-    payback_timeline,
-    system_cost,
-    battery_cost,
-    itc_savings,
+    co2_savings_tons_per_year = 0,
+    remaining_carbon_footprint = 0,
+    payback_timeline = [],
+    system_cost = 0,
+    battery_cost = 0,
+    itc_savings = 0,
   } = data;
 
   // ---------------- CARBON BAR ----------------
@@ -53,12 +53,16 @@ export default function Charts({ data }) {
   };
 
   // ---------------- PAYBACK LINE ----------------
+  const safePaybackTimeline = payback_timeline.length
+    ? payback_timeline
+    : [{ year: 0, net_savings: 0 }];
+
   const paybackChart = {
-    labels: payback_timeline.map((e) => `Year ${e.year}`),
+    labels: safePaybackTimeline.map((e) => `Year ${e.year}`),
     datasets: [
       {
         label: "Net Savings",
-        data: payback_timeline.map((e) => e.net_savings),
+        data: safePaybackTimeline.map((e) => e.net_savings),
         borderColor: "#1B5E20",
         backgroundColor: "#81C784",
         borderWidth: 3,

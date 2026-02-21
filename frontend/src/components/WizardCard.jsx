@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useApi } from "../api/client.js";
 import { useNavigate } from "react-router-dom";
 
+const STEP_LABELS = ["Location", "Energy Use", "Ownership", "Home Details"];
+
 export default function WizardCard() {
   const [step, setStep] = useState(1);
 
@@ -120,12 +122,31 @@ export default function WizardCard() {
   const back = () => setStep((s) => s - 1);
 
   return (
-    <div
-      className="w-full max-w-xl bg-white/50 backdrop-blur-xl shadow-xl rounded-3xl p-8 
-                    border border-white/40 animate-fadeIn"
-    >
-      <h3 className="text-2xl font-bold text-green-700 mb-4">
-        Step {step} of 4
+    <div className="w-full max-w-xl bg-white/60 backdrop-blur-xl shadow-2xl rounded-3xl p-8
+                    border border-white/50 animate-fadeIn">
+
+      {/* Progress Header */}
+      <div className="mb-6">
+        <div className="flex justify-between text-xs font-semibold text-green-700 mb-2">
+          {STEP_LABELS.map((label, i) => (
+            <span
+              key={i}
+              className={i + 1 === step ? "text-green-900" : i + 1 < step ? "text-emerald-500" : "text-green-300"}
+            >
+              {label}
+            </span>
+          ))}
+        </div>
+        <div className="w-full bg-green-100 rounded-full h-2">
+          <div
+            className="bg-gradient-to-r from-green-500 to-emerald-400 h-2 rounded-full transition-all duration-500"
+            style={{ width: `${(step / 4) * 100}%` }}
+          />
+        </div>
+      </div>
+
+      <h3 className="text-lg font-bold text-green-700 mb-4">
+        Step {step} of 4 — <span className="text-green-900">{STEP_LABELS[step - 1]}</span>
       </h3>
 
       <div className="mt-6">

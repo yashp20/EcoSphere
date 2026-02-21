@@ -40,8 +40,7 @@ export default function OptionTabs({ rankings }) {
       </div>
 
       {/* SELECTED OPTION CONTENT */}
-      <MetricCards data={rankings[selected]} />
-
+      <MetricCards option={rankings[selected]} />   {/* ✅ was: data= */}
       {/* ❌ Charts removed from OptionTabs */}
       {/* This prevents duplicate graphs */}
     </div>

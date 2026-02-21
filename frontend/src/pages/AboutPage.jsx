@@ -9,8 +9,7 @@ function Counter({ value, label }) {
     let start = 0;
     const end = value;
     const duration = 1300;
-    const increment = end / (duration / 16);
-
+        const increment = end / (duration / 16);
     const counter = setInterval(() => {
       start += increment;
       if (start >= end) {

@@ -23,8 +23,22 @@ export default function Results() {
     );
   }
 
-  // 🚨 Force solar only
-  const system = data.rankings["solar"];
+  const system = data.rankings?.[data.best_option] || data.rankings?.solar;
+
+  if (!system) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen text-green-900">
+        <h1 className="text-3xl font-bold mb-4">No results available</h1>
+        <p className="mb-6">Please restart the energy assessment.</p>
+        <button
+          onClick={() => navigate("/assessment")}
+          className="px-6 py-3 bg-green-600 text-white rounded-xl shadow hover:bg-green-700"
+        >
+          Restart Assessment
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="relative min-h-screen overflow-hidden pt-28 px-4">
@@ -42,7 +56,7 @@ export default function Results() {
         </h1>
 
         {/* SUMMARY BOX */}
-        <div className="bg-white/60 backdrop-blur-xl shadow-xl rounded-3xl p-10 border border-white/40 mb-12">
+        <div className="bg-white/70 backdrop-blur-xl shadow-2xl rounded-3xl p-10 border border-white/40 mb-12">
           <h2 className="text-2xl font-bold text-green-800 mb-6">
             Rooftop Solar Recommendation
           </h2>
@@ -124,9 +138,12 @@ export default function Results() {
 
 function Info({ label, value }) {
   return (
-    <div className="flex flex-col p-4 bg-white/70 rounded-xl shadow">
-      <span className="text-sm text-green-700 font-semibold">{label}</span>
-      <span className="text-xl font-bold text-green-900">{value}</span>
+    <div className="flex flex-col p-5 bg-white/80 rounded-2xl shadow-md
+                    border border-green-100 hover:shadow-lg transition-shadow">
+      <span className="text-xs uppercase tracking-widest text-green-600 font-bold mb-1">
+        {label}
+      </span>
+      <span className="text-2xl font-extrabold text-green-900">{value}</span>
     </div>
   );
 }

@@ -73,7 +73,7 @@ export default function BestOptionCard({ option, data }) {
           {/* Stats badges */}
           <div className="flex flex-wrap gap-4 mt-6">
             <span className="px-4 py-2 bg-green-600 text-white text-sm rounded-xl shadow">
-              ⭐ Estimated Savings: ${data.annual_savings.toLocaleString()}/yr
+              ⭐ Estimated Savings: ${data?.annual_savings?.toLocaleString() ?? "N/A"}/yr
             </span>
 
             <span className="px-4 py-2 bg-emerald-100 text-green-800 text-sm rounded-xl shadow border border-green-300">
