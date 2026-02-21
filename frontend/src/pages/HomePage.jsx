@@ -40,7 +40,7 @@ export default function HomePage() {
             className="px-8 py-3.5 rounded-2xl bg-white/80 text-emerald-800 border border-emerald-200 
                        hover:bg-white transition"
           >
-            How it works
+            About Us
           </button>
         </div>
       </section>

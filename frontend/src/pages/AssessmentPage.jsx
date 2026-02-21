@@ -2,25 +2,31 @@ import WizardCard from "../components/WizardCard";
 
 export default function AssessmentPage() {
   return (
-    <div className="relative min-h-screen overflow-auto pt-32 pb-20 px-4 flex flex-col items-center gap-8">
-      {/* Background */}
-      <div className="fixed inset-0 -z-10 pointer-events-none">
-        <div className="absolute top-10 left-10 w-80 h-80 bg-green-300 rounded-full blur-3xl opacity-30 animate-pulse" />
-        <div className="absolute bottom-10 right-10 w-96 h-96 bg-emerald-400 rounded-full blur-3xl opacity-30 animate-pulse" />
-        <div className="absolute top-1/2 left-1/2 w-[30rem] h-[30rem] bg-blue-300 rounded-full blur-3xl opacity-20 animate-pulse -translate-x-1/2 -translate-y-1/2" />
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-green-100">
+      <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen">
+        {/* Left Visual Panel */}
+        <div className="relative hidden lg:block">
+          <div className="absolute inset-0">
+            <div className="absolute -top-20 -left-10 w-[32rem] h-[32rem] bg-emerald-300/30 rounded-full blur-[140px]" />
+            <div className="absolute bottom-[-6rem] left-10 w-[30rem] h-[30rem] bg-teal-300/25 rounded-full blur-[140px]" />
+          </div>
+          <div className="relative z-10 h-full flex flex-col justify-center px-16">
+            <h1 className="text-5xl font-extrabold text-emerald-950 leading-tight">
+              Personalized solar analysis,
+              <span className="text-emerald-600"> in minutes.</span>
+            </h1>
+            <p className="mt-5 text-lg text-emerald-800/80 max-w-md">
+              We’ll size your system, estimate savings, and show payback using real NREL data.
+            </p>
+          </div>
+        </div>
 
-      <div className="text-center">
-        <h1 className="text-4xl font-extrabold text-green-900 drop-shadow">
-          Fill Out the Assessment Form
-        </h1>
-        <p className="text-green-700 mt-2 text-lg">
-          Answer a few quick questions to get your personalized energy recommendations.
-        </p>
-      </div>
-
-      <div className="w-full max-w-2xl">
-        <WizardCard />
+        {/* Right Form Panel */}
+        <div className="flex items-center justify-center px-6 py-16 lg:px-16">
+          <div className="w-full max-w-xl">
+            <WizardCard />
+          </div>
+        </div>
       </div>
     </div>
   );

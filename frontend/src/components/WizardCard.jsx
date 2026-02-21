@@ -122,11 +122,10 @@ export default function WizardCard() {
   const back = () => setStep((s) => s - 1);
 
   return (
-    <div className="w-full max-w-xl bg-white/60 backdrop-blur-xl shadow-2xl rounded-3xl p-8
+    <div className="w-full bg-white/80 backdrop-blur-xl shadow-2xl rounded-3xl p-10
                     border border-white/50 animate-fadeIn">
-
       {/* Progress Header */}
-      <div className="mb-6">
+      <div className="mb-8">
         <div className="flex justify-between text-xs font-semibold text-green-700 mb-2">
           {STEP_LABELS.map((label, i) => (
             <span
@@ -137,15 +136,15 @@ export default function WizardCard() {
             </span>
           ))}
         </div>
-        <div className="w-full bg-green-100 rounded-full h-2">
+        <div className="w-full bg-green-100 rounded-full h-2.5">
           <div
-            className="bg-gradient-to-r from-green-500 to-emerald-400 h-2 rounded-full transition-all duration-500"
+            className="bg-gradient-to-r from-green-600 to-emerald-400 h-2.5 rounded-full transition-all duration-500"
             style={{ width: `${(step / 4) * 100}%` }}
           />
         </div>
       </div>
 
-      <h3 className="text-lg font-bold text-green-700 mb-4">
+      <h3 className="text-xl font-bold text-green-800 mb-6">
         Step {step} of 4 — <span className="text-green-900">{STEP_LABELS[step - 1]}</span>
       </h3>
 
@@ -247,11 +246,12 @@ export default function WizardCard() {
       )}
 
       {/* BUTTONS */}
-      <div className="mt-8 flex justify-between">
+      <div className="mt-10 flex justify-between items-center">
         {step > 1 ? (
           <button
             onClick={back}
-            className="px-6 py-3 bg-gray-300 text-gray-800 rounded-xl shadow-md hover:bg-gray-400"
+            className="px-6 py-3 rounded-xl border border-emerald-200 text-emerald-700
+                       hover:bg-emerald-50 transition"
           >
             Back
           </button>
@@ -262,14 +262,14 @@ export default function WizardCard() {
         {step < 4 ? (
           <button
             onClick={next}
-            className="px-6 py-3 bg-green-500 text-white rounded-xl shadow-lg hover:bg-green-600"
+            className="px-7 py-3 bg-emerald-600 text-white rounded-xl shadow-lg hover:bg-emerald-700"
           >
             Next
           </button>
         ) : (
           <button
             onClick={submitForm}
-            className="px-6 py-3 bg-emerald-600 text-white rounded-xl shadow-lg hover:bg-emerald-700"
+            className="px-7 py-3 bg-emerald-700 text-white rounded-xl shadow-lg hover:bg-emerald-800"
           >
             {isSubmitting ? "Loading…" : "Get Recommendation"}
           </button>
