@@ -9,15 +9,17 @@ export default function ProviderList({ zip }) {
   useEffect(() => {
     async function loadProviders() {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/providers/${zip}`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/providers`, {
+          params: { zip },
+        });
         setProviders(res.data.providers || []);
       } catch (err) {
         console.error("Provider lookup failed:", err);
       } finally {
-        setLoading(false);   // ✅
+        setLoading(false);
       }
     }
-    loadProviders();
+    if (zip) loadProviders();
   }, [zip]);
 
   if (loading) return (

@@ -118,7 +118,7 @@ export default function Results() {
             Local Solar Providers in Your Area
           </h2>
 
-          <ProviderList zip={location.state.zip} />
+          <ProviderList zip={data.zip} />
         </div>
 
         {/* 🔁 RESTART BUTTON */}

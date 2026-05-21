@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($body = \"data=[out:json];\\(node[`\"shop`\"=`\"energy`\"]\\(around:50000,41.9859069,-88.220466\\);way[`\"shop`\"=`\"energy`\"]\\(around:50000,41.9859069,-88.220466\\);node[`\"office`\"=`\"energy_supplier`\"]\\(around:50000,41.9859069,-88.220466\\);way[`\"office`\"=`\"energy_supplier`\"]\\(around:50000,41.9859069,-88.220466\\);\\);out center body;\"; $r = Invoke-RestMethod -Uri \"https://overpass-api.de/api/interpreter\" -Method Post -Body $body -Headers @{\"User-Agent\"=\"EcoSphere\"} -TimeoutSec 30; $r.elements.Count; $r.elements | ForEach-Object { \"$\\($_.tags.name\\) -- $\\($_.tags.shop\\) $\\($_.tags.office\\)\" } | Select-Object -First 20)"
+    ]
+  }
+}

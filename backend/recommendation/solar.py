@@ -8,27 +8,30 @@ load_dotenv()
 NREL_KEY = os.getenv("NREL_API_KEY")
 
 def solar_resource(lat, lon):
-    url = "https://developer.nrel.gov/api/solar/solar_resource/v1.json"
+    if not NREL_KEY:
+        raise HTTPException(status_code=500, detail="Missing NREL_API_KEY in .env")
+    url = "https://developer.nlr.gov/api/solar/solar_resource/v1.json"
     params = {"api_key": NREL_KEY, "lat": lat, "lon": lon}
     try:
         res = requests.get(url, params=params, timeout=10).json()
-        outputs = res.get("outputs")
-        if not outputs:
-            raise HTTPException(status_code=502, detail="NREL solar resource error")
-        ghi = outputs["avg_ghi"]["annual"]
-        dni = outputs["avg_dni"]["annual"]
-    except Exception:
-        raise HTTPException(status_code=502, detail="Failed to fetch NREL solar resource")
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"NREL request failed: {e}")
+
+    outputs = res.get("outputs")
+    if not outputs:
+        raise HTTPException(status_code=502, detail=f"NREL solar resource error: {res}")
+    ghi = outputs["avg_ghi"]["annual"]
+    dni = outputs["avg_dni"]["annual"]
 
     return {
-        "ghi": ghi,   # global horizontal irradiance
+        "ghi": ghi,
         "dni": dni
     }
 
 
 def pvwatts_ac_output(lat, lon, system_kw):
     """Returns annual AC output for a system size in kW."""
-    url = "https://developer.nrel.gov/api/pvwatts/v8.json"
+    url = "https://developer.nlr.gov/api/pvwatts/v8.json"
 
     params = {
         "api_key": NREL_KEY,
@@ -44,10 +47,11 @@ def pvwatts_ac_output(lat, lon, system_kw):
 
     try:
         res = requests.get(url, params=params, timeout=10).json()
-        outputs = res.get("outputs")
-        if not outputs:
-            raise HTTPException(status_code=502, detail="NREL PVWatts error")
-        return outputs["ac_annual"]    # yearly output in kWh
-    except Exception:
-        raise HTTPException(status_code=502, detail="Failed to fetch PVWatts output")
+    except Exception as e:
+        raise HTTPException(status_code=502, detail=f"PVWatts request failed: {e}")
+
+    outputs = res.get("outputs")
+    if not outputs:
+        raise HTTPException(status_code=502, detail=f"NREL PVWatts error: {res}")
+    return outputs["ac_annual"]
 

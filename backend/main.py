@@ -70,19 +70,30 @@ class RecommendRequest(BaseModel):
 
 @app.post("/api/recommend")
 def get_recommendation(req: RecommendRequest):
+    print(f"[DEBUG] Received request: zip={req.zip}, kwh={req.monthly_kwh}, sqft={req.sqft}")
+    try:
+        lat, lon = geocode_zip(req.zip)
+        print(f"[DEBUG] Geocoded: lat={lat}, lon={lon}")
+    except Exception as e:
+        print(f"[ERROR] Geocoding failed: {e}")
+        raise
 
-    lat, lon = geocode_zip(req.zip)
-
-    return recommend_energy(
-        zip=req.zip,
-        lat=lat,
-        lon=lon,
-        monthly_kwh=req.monthly_kwh,
-        ownership=req.ownership,
-        dwelling=req.dwelling,
-        battery=req.battery,
-        sqft=req.sqft,
-    )
+    try:
+        result = recommend_energy(
+            zip=req.zip,
+            lat=lat,
+            lon=lon,
+            monthly_kwh=req.monthly_kwh,
+            ownership=req.ownership,
+            dwelling=req.dwelling,
+            battery=req.battery,
+            sqft=req.sqft,
+        )
+        print(f"[DEBUG] Recommendation success")
+        return result
+    except Exception as e:
+        print(f"[ERROR] Recommendation failed: {e}")
+        raise
 
 
 # --- Root route ---

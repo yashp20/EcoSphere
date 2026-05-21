@@ -60,6 +60,8 @@ def recommend_energy(zip, lat, lon, monthly_kwh, ownership, dwelling, battery, s
 
     return {
         "best_option": "solar",
+        "lat": lat,
+        "lon": lon,
         "rankings": {
             "solar": {
                 "solar_kw": solar_kw,
