@@ -1,15 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
-/* --------------------- COUNTER COMPONENT --------------------- */
-function Counter({ value, label }) {
+function Counter({ value, label, suffix = "" }) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
     let start = 0;
     const end = value;
     const duration = 1300;
-        const increment = end / (duration / 16);
+    const increment = end / (duration / 16);
     const counter = setInterval(() => {
       start += increment;
       if (start >= end) {
@@ -19,214 +18,190 @@ function Counter({ value, label }) {
         setCount(Math.floor(start));
       }
     }, 16);
-
     return () => clearInterval(counter);
   }, [value]);
 
   return (
-    <div className="text-center bg-white/70 backdrop-blur-xl p-6 rounded-3xl border border-green-200 shadow-lg">
-      <p className="text-4xl font-extrabold text-green-900">{count.toLocaleString()}</p>
-      <p className="mt-1 text-green-700 text-lg font-medium">{label}</p>
+    <div className="text-center p-8">
+      <p className="text-4xl font-extrabold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+        {count.toLocaleString()}{suffix}
+      </p>
+      <p className="mt-2 text-sm text-gray-500 font-medium">{label}</p>
     </div>
   );
 }
 
-/* --------------------- PARALLAX SPHERES --------------------- */
-function ParallaxSphere({ size, top, left, color }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.6 }}
-      animate={{ opacity: 0.4, scale: 1 }}
-      transition={{ duration: 1.5 }}
-      style={{ width: size, height: size, top, left, background: color }}
-      className="absolute rounded-full blur-3xl mix-blend-screen"
-    />
-  );
-}
-
-/* --------------------- ABOUT PAGE --------------------- */
 export default function AboutPage() {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref });
-
-  const y1 = useTransform(scrollYProgress, [0, 1], ["0%", "14%"]);
-  const y2 = useTransform(scrollYProgress, [0, 1], ["0%", "-10%"]);
+  const y1 = useTransform(scrollYProgress, [0, 1], ["0%", "8%"]);
 
   return (
-    <div ref={ref} className="relative min-h-screen">
+    <div ref={ref} className="min-h-screen">
 
-      {/* ---------------- PARALLAX FLOATING SPHERES ---------------- */}
-      <motion.div style={{ y: y1 }}>
-        <ParallaxSphere
-          size={250}
-          top="15%"
-          left="12%"
-          color="rgba(56, 239, 125, 0.25)"
-        />
-      </motion.div>
+      {/* Hero */}
+      <section className="relative pt-32 pb-16 px-6 overflow-hidden">
+        <div className="absolute inset-0 -z-10 pointer-events-none">
+          <motion.div style={{ y: y1 }}>
+            <div className="absolute top-10 left-1/4 w-[500px] h-[500px] bg-emerald-200/25 rounded-full blur-[140px]" />
+          </motion.div>
+          <div className="absolute bottom-0 right-1/3 w-[400px] h-[400px] bg-teal-200/15 rounded-full blur-[120px]" />
+          <div className="absolute top-1/2 right-10 w-[250px] h-[250px] bg-cyan-200/10 rounded-full blur-[80px]" />
+        </div>
 
-      <motion.div style={{ y: y2 }}>
-        <ParallaxSphere
-          size={200}
-          top="38%"
-          left="70%"
-          color="rgba(0, 200, 255, 0.22)"
-        />
-      </motion.div>
-
-      {/* ---------------- HERO TITLE ---------------- */}
-      <section className="pt-32 pb-10 px-6 text-center max-w-4xl mx-auto">
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="text-5xl md:text-6xl font-extrabold text-green-900 leading-tight"
-        >
-          Powering a Smarter, Cleaner Tomorrow.
-        </motion.h1>
+        <div className="max-w-3xl mx-auto text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl md:text-5xl font-extrabold leading-tight text-balance"
+          >
+            <span className="text-gray-900">Making clean energy decisions </span>
+            <span className="bg-gradient-to-r from-emerald-600 via-teal-500 to-cyan-500 bg-clip-text text-transparent">
+              simpler for every homeowner.
+            </span>
+          </motion.h1>
+        </div>
       </section>
 
-      {/* ---------------- DESCRIPTION BOX ---------------- */}
-      <section className="px-6 pb-16 flex justify-center">
+      {/* Description */}
+      <section className="px-6 pb-16">
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="
-            max-w-4xl 
-            bg-white/70 
-            backdrop-blur-xl 
-            shadow-xl 
-            rounded-3xl 
-            border border-green-200 
-            p-10 
-            text-center
-          "
+          transition={{ duration: 0.8 }}
+          className="max-w-3xl mx-auto bg-white/60 backdrop-blur-xl rounded-3xl border border-white/50 shadow-lg shadow-emerald-100/10 p-10"
         >
-          <p className="text-xl md:text-2xl font-medium text-green-900 leading-relaxed">
-            EcoSphere is a next-generation clean-energy intelligence platform that 
-            simplifies renewable decision-making for homeowners. Using advanced simulation tools, 
-            environmental datasets, and AI-powered modeling, we evaluate your home’s structure, 
-            energy usage, and geographic context to recommend the most cost-efficient solar, 
-            battery, and efficiency upgrades.
-            <br /><br />
-            Our mission: democratize access to clean energy for all.
+          <p className="text-lg text-gray-600 leading-relaxed">
+            EcoSphere helps homeowners understand their solar potential using real
+            environmental data. We combine NREL satellite irradiance measurements with
+            your home's energy profile to produce accurate system sizing, cost
+            estimates, and payback projections — so you can make informed decisions
+            about going solar.
+          </p>
+          <p className="text-lg text-gray-600 leading-relaxed mt-4">
+            Our goal is straightforward: give people the information they need to
+            evaluate clean energy options without the pressure of a sales pitch.
           </p>
         </motion.div>
       </section>
 
-      {/* ---------------- IMPACT COUNTERS ---------------- */}
-      <section className="py-20">
-        <h2 className="text-4xl font-bold text-center text-green-900 mb-12">
-          Our Impact
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto px-4">
-          <Counter value={182400} label="kWh of Solar Modeled" />
-          <Counter value={52800} label="kg CO₂ Saved" />
-          <Counter value={942} label="Homes Analyzed" />
+      {/* Impact counters */}
+      <section className="py-16 px-6">
+        <div className="max-w-4xl mx-auto bg-white/60 backdrop-blur-xl rounded-3xl border border-white/50 shadow-lg shadow-emerald-100/10">
+          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-emerald-100/30">
+            <Counter value={182400} label="kWh of solar modeled" />
+            <Counter value={52800} label="kg CO₂ offset estimated" suffix="+" />
+            <Counter value={942} label="Homes analyzed" suffix="+" />
+          </div>
         </div>
       </section>
 
-      {/* ---------------- FEATURES ---------------- */}
-      <section className="py-20 max-w-6xl mx-auto px-6">
-        <h2 className="text-4xl font-bold text-center text-green-900 mb-10">
-          Why EcoSphere?
-        </h2>
+      {/* What we do */}
+      <section className="relative py-20 px-6 overflow-hidden">
+        <div className="absolute inset-0 -z-10 pointer-events-none">
+          <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-emerald-100/15 rounded-full blur-[100px]" />
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {[
-            {
-              title: "AI-Powered Energy Modeling",
-              desc: "We analyze your home using real simulation data and high-accuracy predictions.",
-            },
-            {
-              title: "Personalized Clean-Energy Plans",
-              desc: "Solar, battery, and efficiency recommendations tailored to your exact home.",
-            },
-            {
-              title: "Instant Cost & Payback Insights",
-              desc: "Understand incentives, savings, and break-even timelines instantly.",
-            },
-          ].map((card, i) => (
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              key={i}
-              className="
-                p-8 
-                bg-white/70 
-                backdrop-blur-lg 
-                rounded-3xl 
-                shadow-lg 
-                border border-green-100 
-                text-center
-              "
-            >
-              <h3 className="text-2xl font-semibold text-green-900 mb-3">
-                {card.title}
-              </h3>
-              <p className="text-green-700 text-lg leading-relaxed">{card.desc}</p>
-            </motion.div>
-          ))}
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-12">
+            What makes EcoSphere different
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                title: "Data-driven estimates",
+                desc: "System sizing and output are calculated from NREL PVWatts satellite data — not generic averages.",
+                gradient: "from-emerald-500/10 to-teal-500/10",
+              },
+              {
+                title: "Personalized to your home",
+                desc: "Your ZIP code, energy usage, home size, and ownership status all factor into the recommendation.",
+                gradient: "from-teal-500/10 to-cyan-500/10",
+              },
+              {
+                title: "Transparent financials",
+                desc: "See the full cost picture: system price, federal ITC savings, annual savings, and break-even year.",
+                gradient: "from-cyan-500/10 to-emerald-500/10",
+              },
+            ].map((card, i) => (
+              <motion.div
+                whileHover={{ y: -6 }}
+                key={i}
+                className={`p-8 bg-gradient-to-br ${card.gradient} backdrop-blur-sm rounded-3xl border border-white/60
+                           shadow-sm hover:shadow-lg hover:shadow-emerald-100/20 transition-all duration-300`}
+              >
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{card.title}</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">{card.desc}</p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ---------------- JOURNEY TIMELINE ---------------- */}
-      <section className="py-20 px-6 bg-white/60 backdrop-blur-lg">
-        <h2 className="text-4xl font-bold text-center text-green-900 mb-12">
-          Our Journey
+      {/* Timeline */}
+      <section className="relative py-20 px-6 overflow-hidden">
+        <div className="absolute inset-0 -z-10 pointer-events-none">
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-200/40 to-transparent" />
+        </div>
+
+        <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-900 mb-12">
+          Project timeline
         </h2>
 
-        <div className="max-w-3xl mx-auto space-y-8">
+        <div className="max-w-2xl mx-auto space-y-4">
           {[
-            { year: "2024", text: "EcoSphere concept is born." },
-            { year: "2025", text: "AI engine & modeling framework developed." },
-            { year: "2026", text: "Launching community solar insights." },
-            { year: "2027", text: "Full home-energy optimization suite." },
+            { year: "2024", text: "EcoSphere concept developed." },
+            { year: "2025", text: "Solar modeling engine and NREL integration built." },
+            { year: "2026", text: "Public launch with provider recommendations." },
           ].map((item, i) => (
             <motion.div
-              initial={{ opacity: 0, y: 25 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.5 }}
               key={i}
-              className="
-                flex flex-col items-center text-center 
-                bg-white 
-                rounded-3xl 
-                shadow-md 
-                p-6 
-                border border-green-100
-              "
+              className="flex items-center gap-6 p-5 rounded-2xl bg-white/50 backdrop-blur-sm border border-white/60 hover:bg-white/70 hover:shadow-md transition-all"
             >
-              <div className="text-4xl font-bold text-green-700 mb-2">
+              <span className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent w-16 flex-shrink-0">
                 {item.year}
-              </div>
-              <div className="text-green-800 text-lg">{item.text}</div>
+              </span>
+              <span className="text-gray-600">{item.text}</span>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* ---------------- CTA ---------------- */}
-      <section className="py-24 text-center">
-        <h2 className="text-4xl font-extrabold text-green-900 mb-4">
-          Ready to unlock your clean-energy potential?
-        </h2>
+      {/* CTA */}
+      <section className="relative py-24 px-6 overflow-hidden">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute inset-0 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-600" />
+          <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-white/10 rounded-full blur-[100px]" />
+          <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-emerald-400/20 rounded-full blur-[80px]" />
+        </div>
 
-        <p className="text-lg text-green-700 mb-8 max-w-2xl mx-auto">
-          Start your personalized assessment to see how much you can save —  
-          tailored precisely to your home.
-        </p>
-
-        <a
-          href="/assessment"
-          className="px-10 py-4 bg-green-600 text-white text-xl rounded-2xl 
-                     shadow-lg hover:bg-green-700 hover:scale-105 transition-all"
-        >
-          Begin Your Assessment
-        </a>
+        <div className="max-w-3xl mx-auto text-center relative">
+          <h2 className="text-3xl font-bold text-white mb-4">
+            See what solar looks like for your home
+          </h2>
+          <p className="text-emerald-100/80 mb-8">
+            Complete a quick assessment and get your personalized solar analysis.
+          </p>
+          <a href="/assessment"
+            className="inline-block px-8 py-3.5 bg-white text-emerald-700 text-sm font-semibold rounded-2xl
+                       shadow-lg hover:bg-emerald-50 hover:scale-[1.02] transition-all">
+            Start Assessment
+          </a>
+        </div>
       </section>
+
+      {/* Footer */}
+      <footer className="py-8 px-6 bg-white/40 backdrop-blur-sm border-t border-emerald-100/30">
+        <p className="text-center text-sm text-gray-400">
+          &copy; {new Date().getFullYear()} EcoSphere. Built for cleaner energy decisions.
+        </p>
+      </footer>
     </div>
   );
 }
