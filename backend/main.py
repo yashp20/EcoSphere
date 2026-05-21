@@ -13,6 +13,9 @@ from recommendation.engine import recommend_energy
 # ⭐ IMPORT PROVIDERS ROUTER (Google Places version)
 from recommendation.providers import router as providers_router
 
+# ⭐ IMPORT USER DATA ROUTER (history + favorites via Supabase)
+from user_data import router as user_data_router, save_assessment, get_clerk_id_optional
+
 
 app = FastAPI()
 
@@ -69,7 +72,7 @@ class RecommendRequest(BaseModel):
 # --- Main Recommendation Endpoint ---
 
 @app.post("/api/recommend")
-def get_recommendation(req: RecommendRequest):
+def get_recommendation(req: RecommendRequest, request: Request):
     print(f"[DEBUG] Received request: zip={req.zip}, kwh={req.monthly_kwh}, sqft={req.sqft}")
     try:
         lat, lon = geocode_zip(req.zip)
@@ -90,10 +93,30 @@ def get_recommendation(req: RecommendRequest):
             sqft=req.sqft,
         )
         print(f"[DEBUG] Recommendation success")
-        return result
     except Exception as e:
         print(f"[ERROR] Recommendation failed: {e}")
         raise
+
+    # Best-effort: save the assessment to history if the user is signed in.
+    # Never blocks or breaks the recommendation if this fails.
+    try:
+        clerk_id = get_clerk_id_optional(request)
+        if clerk_id:
+            save_assessment(
+                clerk_id=clerk_id,
+                inputs={
+                    "zip": req.zip,
+                    "monthly_kwh": req.monthly_kwh,
+                    "sqft": req.sqft,
+                    "ownership": req.ownership,
+                    "battery": req.battery,
+                },
+                result=result,
+            )
+    except Exception as e:
+        print(f"[WARN] Could not save assessment: {e}")
+
+    return result
 
 
 # --- Root route ---
@@ -104,4 +127,7 @@ def root():
 
 # --- ⭐ REGISTER GOOGLE PROVIDERS ROUTER ⭐ ---
 app.include_router(providers_router, prefix="/api")
+
+# --- ⭐ REGISTER USER DATA ROUTER (history + favorites) ⭐ ---
+app.include_router(user_data_router, prefix="/api")
 

@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import ResultsPage from "./pages/ResultsPage";
 import AssessmentPage from "./pages/AssessmentPage";
 import AboutPage from "./pages/AboutPage";
+import HistoryPage from "./pages/HistoryPage";
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/assessment" element={<AssessmentPage />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/history" element={<HistoryPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/results" element={<ResultsPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
