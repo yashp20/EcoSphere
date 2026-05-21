@@ -22,7 +22,7 @@ export default function App() {
       </SignedOut>
 
       <SignedIn>
-        <div className="relative min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+        <div className="relative min-h-screen">
           <Navbar />
           <Routes>
             <Route path="/" element={<HomePage />} />

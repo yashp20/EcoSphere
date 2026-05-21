@@ -5,14 +5,24 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen relative">
-      {/* Page-level aura background */}
-      <div className="fixed inset-0 -z-10 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-100 via-white to-teal-100" />
-        <div className="absolute top-[-12rem] left-[-10rem] w-[50rem] h-[50rem] bg-emerald-400/40 rounded-full blur-[150px] animate-pulse" style={{ animationDuration: "6s" }} />
-        <div className="absolute bottom-[-14rem] right-[-12rem] w-[55rem] h-[55rem] bg-teal-400/35 rounded-full blur-[160px] animate-pulse" style={{ animationDuration: "8s" }} />
-        <div className="absolute top-[40%] left-[45%] w-[35rem] h-[35rem] bg-cyan-300/25 rounded-full blur-[130px] animate-pulse" style={{ animationDuration: "7s" }} />
-        <div className="absolute top-[20%] right-[10%] w-[22rem] h-[22rem] bg-emerald-500/20 rounded-full blur-[100px]" />
-        <div className="absolute bottom-[30%] left-[5%] w-[28rem] h-[28rem] bg-teal-500/18 rounded-full blur-[110px]" />
+      {/* Page-level aura background — bold drifting orbs */}
+      <div className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
+        <div className="absolute inset-0 bg-[#f0fdf8]" />
+        {/* Large emerald orb — top left */}
+        <div className="aura-1 absolute top-[-6rem] left-[-4rem] w-[44rem] h-[44rem] rounded-full blur-[100px]"
+             style={{ background: "radial-gradient(circle, rgba(16,185,129,0.55) 0%, rgba(16,185,129,0) 70%)" }} />
+        {/* Large teal orb — bottom right */}
+        <div className="aura-2 absolute bottom-[-8rem] right-[-6rem] w-[48rem] h-[48rem] rounded-full blur-[100px]"
+             style={{ background: "radial-gradient(circle, rgba(20,184,166,0.5) 0%, rgba(20,184,166,0) 70%)" }} />
+        {/* Cyan orb — center */}
+        <div className="aura-3 absolute top-[35%] left-[40%] w-[36rem] h-[36rem] rounded-full blur-[90px]"
+             style={{ background: "radial-gradient(circle, rgba(6,182,212,0.4) 0%, rgba(6,182,212,0) 70%)" }} />
+        {/* Smaller emerald accent — top right */}
+        <div className="aura-4 absolute top-[15%] right-[8%] w-[24rem] h-[24rem] rounded-full blur-[80px]"
+             style={{ background: "radial-gradient(circle, rgba(5,150,105,0.45) 0%, rgba(5,150,105,0) 70%)" }} />
+        {/* Smaller teal accent — bottom left */}
+        <div className="aura-2 absolute bottom-[20%] left-[3%] w-[28rem] h-[28rem] rounded-full blur-[80px]"
+             style={{ background: "radial-gradient(circle, rgba(13,148,136,0.4) 0%, rgba(13,148,136,0) 70%)" }} />
       </div>
 
       {/* HERO */}
@@ -46,8 +56,8 @@ export default function HomePage() {
             </button>
             <button
               onClick={() => navigate("/about")}
-              className="px-8 py-3.5 rounded-2xl bg-white/70 backdrop-blur-sm text-gray-700 text-sm font-semibold
-                         border border-white/60 shadow-sm hover:bg-white/90 hover:border-emerald-200 hover:text-emerald-700 transition-all"
+              className="px-8 py-3.5 rounded-2xl bg-white/80 backdrop-blur-md text-gray-700 text-sm font-semibold
+                         border border-white/70 shadow-sm hover:bg-white hover:border-emerald-200 hover:text-emerald-700 transition-all"
             >
               Learn More
             </button>
@@ -148,7 +158,7 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="relative py-8 px-6 bg-white/50 backdrop-blur-sm border-t border-emerald-100/30">
+      <footer className="relative py-8 px-6 bg-white/80 backdrop-blur-md border-t border-emerald-200/40">
         <p className="text-center text-sm text-gray-500">
           &copy; {new Date().getFullYear()} EcoSphere. Built for cleaner energy decisions.
         </p>
@@ -159,10 +169,10 @@ export default function HomePage() {
 
 function StepCard({ step, title, desc, gradient }) {
   return (
-    <div className={`relative p-7 rounded-2xl bg-gradient-to-br ${gradient} backdrop-blur-md
-                     border border-white/50 hover:border-emerald-200/50 hover:shadow-xl hover:shadow-emerald-200/20
+    <div className={`relative p-7 rounded-2xl bg-gradient-to-br ${gradient} backdrop-blur-xl
+                     border border-white/70 hover:border-emerald-300/60 hover:shadow-xl hover:shadow-emerald-200/25
                      transition-all duration-300 group`}>
-      <div className="absolute inset-0 rounded-2xl bg-white/40 -z-10" />
+      <div className="absolute inset-0 rounded-2xl bg-white/70 -z-10" />
       <span className="text-xs font-bold text-emerald-600 tracking-wider uppercase">
         Step {step}
       </span>
@@ -177,8 +187,8 @@ function ValueCard({ icon, title, desc, color }) {
   const iconText = { emerald: "text-emerald-700", teal: "text-teal-700", cyan: "text-cyan-700" };
 
   return (
-    <div className="p-7 rounded-2xl bg-white/50 backdrop-blur-md border border-white/50
-                    shadow-sm hover:shadow-xl hover:shadow-emerald-200/15 hover:-translate-y-1 hover:bg-white/70 transition-all duration-300">
+    <div className="p-7 rounded-2xl bg-white/75 backdrop-blur-xl border border-white/70
+                    shadow-sm hover:shadow-xl hover:shadow-emerald-200/25 hover:-translate-y-1 hover:bg-white/90 transition-all duration-300">
       <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${iconBg[color]} flex items-center justify-center ${iconText[color]} mb-5 shadow-sm`}>
         {icon}
       </div>
