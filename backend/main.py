@@ -20,9 +20,15 @@ from user_data import router as user_data_router, save_assessment, get_clerk_id_
 app = FastAPI()
 
 # --- CORS ---
+# Allowed frontend origins. Add new deployment URLs here.
+ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "https://eco-sphere-ashen.vercel.app",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
+    allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
